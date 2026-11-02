@@ -1,0 +1,28 @@
+
+      - name: Vérifier et configurer Capacitor
+        run: |
+          if [ ! -f capacitor.config.json ] && [ ! -f capacitor.config.ts ]; then
+            echo "Création de la configuration Capacitor..."
+
+            node -e "
+              const fs = require('fs');
+              const pkg = require('./package.json');
+              const config = {
+                appId: 'dz.sonelgaz.poseco',
+                appName: 'Pose CO',
+                webDir: 'www'
+              };
+              fs.writeFileSync(
+                'capacitor.config.json',
+                JSON.stringify(config, null, 2)
+              );
+            "
+          fi
+
+          npx cap doctor
+
+      - name: Créer le projet Android
+        run: |
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
