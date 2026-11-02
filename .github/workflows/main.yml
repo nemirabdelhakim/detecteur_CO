@@ -1,0 +1,113 @@
+
+name: Construire l'APK Android
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apk:
+    name: Compiler Pose CO
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupérer le code source
+      - name: Récupérer les fichiers
+        uses: actions/checkout@v4
+
+      # 2. Installer Node.js
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Installer Java
+      - name: Installer Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # 4. Installer et configurer le SDK Android
+      - name: Installer le SDK Android
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools'
+
+      # 5. Vérifier les fichiers nécessaires
+      - name: Vérifier la structure du projet
+        run: |
+          test -f package.json || {
+            echo "ERREUR : package.json est absent"
+            exit 1
+          }
+
+          test -f package-lock.json || {
+            echo "ERREUR : package-lock.json est absent"
+            exit 1
+          }
+
+          test -f scripts/patch-android.js || {
+            echo "ERREUR : scripts/patch-android.js est absent"
+            exit 1
+          }
+
+      # 6. Installer les dépendances JavaScript
+      - name: Installer les dépendances
+        run: npm ci
+
+      # 7. Vérifier Capacitor
+      - name: Vérifier Capacitor
+        run: npx cap --version
+
+      # 8. Créer le projet Android si nécessaire
+      - name: Créer le projet Android
+        run: |
+          if [ ! -d android ]; then
+            npx cap add android
+          else
+            echo "Le dossier Android existe déjà."
+          fi
+
+      # 9. Appliquer la configuration Android
+      - name: Configurer Android
+        run: node scripts/patch-android.js
+
+      # 10. Synchroniser les fichiers de l'application
+      - name: Synchroniser Capacitor
+        run: npx cap sync android
+
+      # 11. Vérifier la présence de Gradle
+      - name: Vérifier Gradle
+        working-directory: android
+        run: |
+          if [ ! -f gradlew ]; then
+            echo "ERREUR : le fichier gradlew est absent"
+            exit 1
+          fi
+          chmod +x gradlew
+          java -version
+          ./gradlew --version
+
+      # 12. Compiler l'APK Release
+      - name: Compiler l'APK
+        working-directory: android
+        run: |
+          ./gradlew assembleRelease \
+            --no-daemon \
+            --stacktrace
+
+      # 13. Publier l'APK généré
+      - name: Publier l'APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pose-CO-apk
+          path: android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+          retention-days: 14
