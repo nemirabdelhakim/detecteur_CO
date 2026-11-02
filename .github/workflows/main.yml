@@ -1,4 +1,3 @@
-
       - name: Vérifier et configurer Capacitor
         run: |
           if [ ! -f capacitor.config.json ] && [ ! -f capacitor.config.ts ]; then
