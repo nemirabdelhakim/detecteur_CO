@@ -1,0 +1,13 @@
+{
+  "name": "pose-co",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Application de terrain Pose CO (détecteurs CO)",
+  "dependencies": {
+    "@capacitor/android": "^6.2.3",
+    "@capacitor/cli": "^6.2.3",
+    "@capacitor/core": "^6.2.3",
+    "@capacitor/filesystem": "^6.0.4",
+    "@capacitor/share": "^6.0.4"
+  }
+}

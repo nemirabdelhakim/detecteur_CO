@@ -1,0 +1,63 @@
+POSE CO - APPLICATION ANDROID (APK) COMPILÉE PAR GITHUB
+========================================================
+
+Ce dossier contient l'application Pose CO prête à être transformée en APK
+par GitHub (gratuit). Vous n'avez rien à installer sur votre ordinateur.
+
+ÉTAPE 1 - Créer un dépôt GitHub PRIVÉ
+  1. Créez un compte gratuit sur https://github.com
+  2. Cliquez sur "+" (en haut à droite) puis "New repository".
+  3. Nom : pose-co   -  Choisissez "Private" (IMPORTANT : le dossier contient
+     la clé de signature de votre application, il ne doit pas être public).
+  4. Cliquez sur "Create repository".
+
+ÉTAPE 2 - Envoyer les fichiers
+  1. Décompressez le zip sur votre ordinateur.
+  2. Sur la page du dépôt, cliquez sur "uploading an existing file".
+  3. Sélectionnez TOUT le contenu du dossier décompressé (Ctrl + A) et glissez-le
+     dans la page : package.json, package-lock.json, capacitor.config.json,
+     dossiers www, resources, scripts, signing et .github.
+  4. Cliquez sur "Commit changes".
+
+  Si le dossier ".github" n'a pas été envoyé (dossier caché) :
+  - "Add file" > "Create new file"
+  - Nom du fichier, à taper tel quel : .github/workflows/build-apk.yml
+  - Collez le contenu du fichier build-apk.yml fourni dans ce dossier,
+    puis "Commit changes".
+
+ÉTAPE 3 - Attendre la compilation (5 à 10 minutes)
+  1. Ouvrez l'onglet "Actions" du dépôt.
+  2. Le travail "Construire l'APK Android" démarre tout seul
+     (sinon : cliquez dessus puis "Run workflow").
+  3. Une coche verte = terminé. Une croix rouge = échec : ouvrez l'étape en
+     rouge et envoyez-moi le message d'erreur.
+
+ÉTAPE 4 - Récupérer l'APK
+  1. Cliquez sur l'exécution terminée (coche verte).
+  2. En bas de page, section "Artifacts" : téléchargez "Pose-CO-apk".
+  3. Décompressez : vous obtenez le fichier app-release.apk.
+
+ÉTAPE 5 - Installer sur le téléphone
+  1. Copiez app-release.apk sur le téléphone (câble, WhatsApp, clé USB...).
+  2. Touchez le fichier, autorisez l'installation depuis cette source si Android
+     le demande ("Sources inconnues"), puis installez.
+  3. Au premier lancement, acceptez la caméra et la localisation.
+  Aucune connexion Internet n'est nécessaire, ni pour installer ni pour utiliser.
+
+METTRE À JOUR L'APPLICATION
+  - Remplacez les fichiers modifiés dans GitHub (Add file > Upload files : déposez les
+    dossiers et fichiers du zip de mise à jour), puis "Commit changes" : un nouvel APK
+    est compilé automatiquement.
+  - Installez-le par-dessus l'ancien : les enregistrements du téléphone sont conservés
+    (la clé de signature est la même, le numéro de version augmente tout seul).
+  - NE SUPPRIMEZ PAS l'application avant de la mettre à jour : cela effacerait les données.
+
+À SAVOIR
+  - Exportez régulièrement vos fichiers Excel : les données sont dans le téléphone.
+  - Export Excel/JSON : une fenêtre de partage Android s'ouvre (Fichiers, Drive,
+    WhatsApp, e-mail...). Une copie est aussi tentée dans Documents/PoseCO.
+  - Impression (fiche de pose, décharges) : le bouton "Imprimer" ouvre la fenêtre
+    d'impression d'Android. Choisissez une imprimante Wi-Fi / réseau, ou
+    "Enregistrer au format PDF" (puis envoyez le PDF vers un PC ou une imprimante).
+    Fiche de pose = A4 paysage ; décharges = A4 portrait.
+  - Gardez une copie du dossier "signing" (clé de signature) en lieu sûr.
